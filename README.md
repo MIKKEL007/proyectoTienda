@@ -30,4 +30,6 @@ NOTAS DEL 7/12/2024:
 - se creo dashboard.php para la consultas de home.html
 - se crearon los .js para inventory y home
 
+. amo a una fea llamada zayra
+
 
