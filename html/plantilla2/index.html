@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Inventario</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
@@ -23,10 +24,126 @@
     <main>
         <h2>Bienvenido al Sistema de Inventario</h2>
         <p>Desde aquí puedes gestionar el inventario de tu tienda mayorista.</p>
+
+
+        <h2>Lista de Productos</h2>
+
+     <!-- Filtro de búsqueda dinámica -->
+     <label for="buscador">Buscar Producto:</label>
+     <input type="text" id="buscador" placeholder="Escribe un nombre">
+ 
+     <!-- Filtro por categoría con botón -->
+     <label for="categoria">Filtrar por Categoría:</label>
+     <select id="categoria">
+         
+     </select>
+     <button onclick="filtrarPorCategoria()">Filtrar</button>
+
+    <!-- Tabla de productos -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody id="tabla_productos">
+            <!-- Se llenará dinámicamente -->
+        </tbody>
+    </table>
     </main>
 
     <footer>
         <p>&copy; 2025 Sistema de Inventario Mayorista</p>
     </footer>
+
+    <script>
+        $(document).ready(function() {
+            cargarCategorias();
+            cargarProductos();
+
+            // Búsqueda dinámica
+            $("#buscador").on("input", function() {
+                filtrarProductos();
+            });
+        });
+
+        function cargarCategorias() {
+            $.ajax({
+                url: "categorias.php",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    let select = $("#categoria");
+                    select.append(`<option value="">Todas</option>`);
+                    data.forEach(categoria => {
+                        select.append(`<option value="${categoria.nombre}">${categoria.nombre}</option>`);
+                    });
+                }
+            });
+        }
+
+        function cargarProductos() {
+            $.ajax({
+                url: "productos.php",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    mostrarProductos(data);
+                }
+            });
+        }
+
+        function mostrarProductos(productos) {
+            let tbody = $("#tabla_productos");
+            tbody.empty();
+            productos.forEach(producto => {
+                tbody.append(`
+                    <tr>
+                        <td>${producto.id}</td>
+                        <td>${producto.nombre}</td>
+                        <td>${producto.categoria_nombre}</td>
+                        <td>${producto.stock}</td>
+                    </tr>
+                `);
+            });
+        }
+
+        function filtrarProductos() {
+            let busqueda = $("#buscador").val().toLowerCase();
+
+            $.ajax({
+                url: "productos.php",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    let productosFiltrados = data.filter(producto =>
+                        producto.nombre.toLowerCase().startsWith(busqueda)
+                    );
+                    mostrarProductos(productosFiltrados);
+                }
+            });
+        }
+
+        function filtrarPorCategoria() {
+            let categoriaSeleccionada = $("#categoria").val();
+
+            $.ajax({
+                url: "productos.php",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    let productosFiltrados = data.filter(producto =>
+                        categoriaSeleccionada === "" || producto.categoria_nombre === categoriaSeleccionada
+                    );
+                    console.log(productosFiltrados);
+                    
+                    mostrarProductos(productosFiltrados);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

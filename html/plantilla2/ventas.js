@@ -5,11 +5,14 @@
 document.getElementById('add-sale-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const producto_id = document.getElementById('venta-producto').value;
-    const precio_venta = parseFloat(document.getElementById('venta-precio').value);
-    const cantidad = parseInt(document.getElementById('venta-cantidad').value);
+    const producto_id = parseInt(document.getElementById('venta-producto').value);
+    const precio_id = parseInt(document.getElementById('venta-precio').value);
+    const cantidad = parseFloat(document.getElementById('venta-cantidad').value);
+    const fecha = document.getElementById('venta-fecha').value;
 
-    const data = { producto_id, precio_venta, cantidad };
+    const data = { producto_id,precio_id, cantidad,fecha };
+   console.log(data);
+    
     
     fetch('ventas.php', {
         method: 'POST',
@@ -36,7 +39,7 @@ function getVentas() {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${venta.id}</td>
-                    <td>${venta.producto_id}</td>
+                    <td>${venta.producto}</td>
                     <td>${venta.precio_venta}</td>
                     <td>${venta.cantidad}</td>
                 `;
@@ -45,7 +48,7 @@ function getVentas() {
         });
 }
 
-// Cargar productos en el formulario de ventas
+// Cargar productos en el formulario de ventas   
 function loadProductsForSales() {
     fetch('productos.php')
         .then(response => response.json())
@@ -75,16 +78,25 @@ function loadPricesForProduct() {
         .then(data => {
             selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
             data.forEach(precio => {
+                
                 const option = document.createElement('option');
-                option.value = precio.id;
+                option.value = precio.precio_id;
                 option.textContent = `${precio.concepto} - $${precio.valor}`;
                 selectPrecios.appendChild(option);
             });
         });
 }
 
+// Función para establecer la fecha actual por defecto
+function setDefaultDate() {
+    const today = new Date().toISOString().split('T')[0]; // Obtiene la fecha en formato YYYY-MM-DD
+    document.getElementById('venta-fecha').value = today;
+}
+
 // Inicializar la página cargando ventas
 document.addEventListener('DOMContentLoaded', () => {
     getVentas();
     loadProductsForSales();
+    setDefaultDate();
+
 });

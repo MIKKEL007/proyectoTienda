@@ -14,12 +14,12 @@ switch ($method) {
         }
         echo json_encode($ventas);
         break;
-        
+
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
         
         $producto_id = $data['producto_id'];
-        $precio_venta = $data['precio_venta'];
+        $fecha = $data['fecha'];
         $cantidad_vendida = $data['cantidad'];
         $precio_id = $data['precio_id']; // Precio seleccionado
 
@@ -48,8 +48,11 @@ switch ($method) {
                         $conversion = $cantidad_vendida / 100; // 100 libras = 1 quintal
                     } elseif ($concepto === "arroba") {
                         $conversion = $cantidad_vendida / 4; // 4 arrobas = 1 quintal
-                    } else {
-                        $conversion = $cantidad_vendida / $precio['valor']; // Conversión según la base de datos
+                    } else { 
+                        // HAY QUE REVISAR ESTA OPCION
+                        $conversion = $cantidad_vendida; // Conversión según la base de datos
+                        // $conversion = $cantidad_vendida / $precio['valor']; // Conversión según la base de datos
+
                     }
                 } else {
                     echo json_encode(["error" => "Precio no encontrado"]);
@@ -66,10 +69,12 @@ switch ($method) {
             $result = $stmt->get_result();
             $stock = $result->fetch_assoc()['stock'];
 
+            $precio_venta =  $cantidad_vendida * $precio['valor'];
+
             if ($stock >= $conversion) {
                 // Registrar la venta
-                $stmt = $conn->prepare("INSERT INTO ventas (producto_id, precio_venta, cantidad) VALUES (?, ?, ?)");
-                $stmt->bind_param("idf", $producto_id, $precio_venta, $cantidad_vendida);
+                $stmt = $conn->prepare("INSERT INTO ventas (producto_id, precio_venta, cantidad, fecha) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("idds", $producto_id, $precio_venta, $cantidad_vendida, $fecha);
                 $stmt->execute();
 
                 // Actualizar stock
