@@ -60,6 +60,29 @@ function loadProductsForSales() {
         });
 }
 
+// Cargar precios cuando se seleccione un producto
+function loadPricesForProduct() {
+    const productoId = document.getElementById('venta-producto').value;
+    const selectPrecios = document.getElementById('venta-precio');
+
+    if (!productoId) {
+        selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
+        return;
+    }
+
+    fetch(`precios.php?producto_id=${productoId}`)
+        .then(response => response.json())
+        .then(data => {
+            selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
+            data.forEach(precio => {
+                const option = document.createElement('option');
+                option.value = precio.id;
+                option.textContent = `${precio.concepto} - $${precio.valor}`;
+                selectPrecios.appendChild(option);
+            });
+        });
+}
+
 // Inicializar la página cargando ventas
 document.addEventListener('DOMContentLoaded', () => {
     getVentas();

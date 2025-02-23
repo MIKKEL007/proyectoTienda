@@ -25,14 +25,17 @@
     <h2>Agregar Venta</h2>
     <form id="add-sale-form">
         <label for="venta-producto">Producto:</label>
-        <select id="venta-producto" required>
+        <select id="venta-producto"  onchange="loadPricesForProduct()">
             <option value="">Seleccione un producto</option>
         </select>
         <br>
 
-        <label for="venta-precio">Precio Venta:</label>
-        <input type="number" id="venta-precio" step="0.01" required>
-        <br>
+        <label for="venta-precio">Precio:</label>
+<select id="venta-precio" name="precio_id" >
+    <option value="">Selecciona un precio</option>
+</select>
+<br>
+
 
         <label for="venta-cantidad">Cantidad:</label>
         <input type="number" id="venta-cantidad" required>

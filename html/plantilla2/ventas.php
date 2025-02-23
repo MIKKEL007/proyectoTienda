@@ -4,6 +4,17 @@ include 'db.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
+    case 'GET':
+        $result = $conn->query("SELECT v.id, v.fecha, p.nombre AS producto, v.precio_venta, v.cantidad 
+                                FROM ventas v 
+                                JOIN productos p ON v.producto_id = p.id");
+        $ventas = [];
+        while ($row = $result->fetch_assoc()) {
+            $ventas[] = $row;
+        }
+        echo json_encode($ventas);
+        break;
+        
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
         
