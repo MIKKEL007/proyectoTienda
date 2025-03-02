@@ -7,6 +7,10 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
     const cantidad = parseFloat(document.getElementById('venta-cantidad').value);
     const fecha = document.getElementById('venta-fecha').value;
 
+
+    const data = { producto_id, precio_id, cantidad, fecha };
+    console.log(data);  // Verifica los datos que se están enviando
+
     // Validar si los campos son correctos
     if (!producto_id || !precio_id || !cantidad || !fecha) {
         Swal.fire({
@@ -17,10 +21,9 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
         return;
     }
 
-    const data = { producto_id, precio_id, cantidad, fecha };
-    console.log(data);  // Verifica los datos que se están enviando
     
-    fetch('Php/ventas.php', {
+    
+    fetch('../Php/ventas.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -56,7 +59,7 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
 
 // Función para obtener y mostrar ventas
 function getVentas() {
-    fetch('Php/ventas.php')
+    fetch('../Php/ventas.php')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector("#ventas-table tbody");
@@ -83,7 +86,7 @@ function getVentas() {
 
 // Cargar productos en el formulario de ventas   
 function loadProductsForSales() {
-    fetch('Php/productos.php')
+    fetch('../Php/productos.php')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('venta-producto');
@@ -113,13 +116,13 @@ function loadPricesForProduct() {
         return;
     }
 
-    fetch(`Php/precios.php?producto_id=${productoId}`)
+    fetch(`../Php/precios.php?producto_id=${productoId}`)
         .then(response => response.json())
         .then(data => {
             selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
             data.forEach(precio => {
                 const option = document.createElement('option');
-                option.value = precio.id;  // Asegúrate de que el campo correcto es `id`
+                option.value = precio.precio_id;  // Asegúrate de que el campo correcto es `id`
                 option.textContent = `${precio.concepto} - $${precio.valor}`;
                 selectPrecios.appendChild(option);
             });

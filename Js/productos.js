@@ -1,6 +1,6 @@
 // Función para obtener y mostrar productos
 function getProductos() {
-    fetch('Php/productos.php')
+    fetch('../Php/productos.php')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector("#productos-table tbody");
@@ -48,7 +48,7 @@ document.getElementById('add-product-form').addEventListener('submit', function(
 
     const data = { nombre, categoria_id, quintales };
     
-    fetch('Php/productos.php', {
+    fetch('../Php/productos.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ document.getElementById('add-product-form').addEventListener('submit', function(
 
 // Función para editar un producto
 function editProduct(id) {
-    fetch(`Php/productos.php?id=${id}`)
+    fetch(`../Php/productos.php?id=${id}`)
         .then(response => response.json())
         .then(producto => {
             document.getElementById('producto-nombre').value = producto.nombre;
@@ -96,7 +96,7 @@ function editProduct(id) {
 
 // Función para cargar categorías en el formulario de productos
 function loadCategories() {
-    fetch('Php/categorias.php')
+    fetch('../Php/categorias.php')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('producto-categoria');

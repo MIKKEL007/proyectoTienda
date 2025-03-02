@@ -1,6 +1,6 @@
 // Función para obtener y mostrar precios
 function getPrecios() {
-    fetch('Php/precios.php')
+    fetch('../Php/precios.php')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.querySelector("#precios-table tbody");
@@ -14,7 +14,6 @@ function getPrecios() {
                     <td>${precio.valor}</td>
                     <td>
                         <button class="btn btn-warning" onclick="editPrice(${precio.precio_id})">Editar</button>
-                        <button class="btn btn-danger" onclick="deletePrice(${precio.precio_id})">Eliminar</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -40,7 +39,7 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
 
     const data = { producto_id, concepto, valor };
 
-    fetch('Php/precios.php', {
+    fetch('../Php/precios.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -49,11 +48,14 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
     })
     .then(response => response.json())
     .then(data => {
+
+        console.log(data);
+        
         if (data.success) {
             Swal.fire('Precio agregado', 'El precio ha sido agregado correctamente', 'success');
             getPrecios();  // Recargar la lista de precios
         } else {
-            Swal.fire('Error', data.message, 'error');
+            Swal.fire('Error CD', data.message, 'error');
         }
     })
     .catch(error => {
@@ -74,7 +76,7 @@ function deletePrice(precio_id) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('Php/precios.php', {
+            fetch('../Php/precios.php', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -99,7 +101,7 @@ function deletePrice(precio_id) {
 
 // Función para cargar productos en el formulario de precios
 function loadProducts() {
-    fetch('Php/productos.php')
+    fetch('../Php/productos.php')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('precio-producto');
@@ -132,7 +134,7 @@ function editPrice(precio_id) {
             const nuevoPrecio = parseFloat(result.value);
             if (!isNaN(nuevoPrecio)) {
                 // Realiza la solicitud de edición (similar a agregar)
-                fetch('Php/precios.php', {
+                fetch('../Php/precios.php', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

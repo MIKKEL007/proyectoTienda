@@ -38,7 +38,7 @@ switch ($method) {
         $stmt->bind_param("isd", $producto_id, $concepto, $valor);
         $stmt->execute();
 
-        echo json_encode(["message" => "Precio creado"]);
+        echo json_encode(["message" => "Precio creado","success" => true]);
         break;
 
     case 'PUT':

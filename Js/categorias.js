@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función para obtener y mostrar categorías
 function getCategorias() {
-    fetch('Php/categorias.php')
+    fetch('../Php/categorias.php')
         .then(response => response.json())
         .then(data => {
-            const tableBody = document.querySelector("#categorias-table tbody");
+            const tableBody = document.querySelector("#categorias-table");
             tableBody.innerHTML = "";
             data.forEach(categoria => {
                 const row = document.createElement('tr');
@@ -47,7 +47,7 @@ document.getElementById('add-category-form').addEventListener('submit', function
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('Php/categorias.php', {
+            fetch('../Php/categorias.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ document.getElementById('add-category-form').addEventListener('submit', function
 
 // Función para editar una categoría
 function editCategory(id) {
-    fetch(`Php/categorias.php?id=${id}`)
+    fetch(`../Php/categorias.php?id=${id}`)
         .then(response => response.json())
         .then(categoria => {
             Swal.fire({
@@ -87,7 +87,7 @@ function editCategory(id) {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('Php/categorias.php', {
+                    fetch('../Php/categorias.php', {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ id, nombre: result.value })

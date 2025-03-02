@@ -81,8 +81,8 @@ switch ($method) {
                 $stmt = $conn->prepare("UPDATE productos SET stock = stock - ? WHERE id = ?");
                 $stmt->bind_param("di", $conversion, $producto_id);
                 $stmt->execute();
-
-                echo json_encode(["message" => "Venta registrada"]);
+                
+                echo json_encode(["message" => "Venta registrada","success" =>true]);
             } else {
                 echo json_encode(["error" => "Stock insuficiente"]);
             }

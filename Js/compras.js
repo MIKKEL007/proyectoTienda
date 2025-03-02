@@ -35,7 +35,7 @@ document.getElementById("add-purchase-form").addEventListener("submit", function
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch("Php/compras.php", {
+            fetch("../Php/compras.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ document.getElementById("add-purchase-form").addEventListener("submit", function
 
 // Función para obtener y mostrar compras
 function getCompras() {
-    fetch("Php/compras.php")
+    fetch("../Php/compras.php")
         .then((response) => response.json())
         .then((data) => {
             const tableBody = document.querySelector("#compras-table tbody");
@@ -77,7 +77,7 @@ function getCompras() {
                 row.innerHTML = `
                     <td>${compra.id}</td>
                     <td>${compra.producto}</td>
-                    <td>$${compra.precio_compra.toFixed(2)}</td>
+                    <td>$${compra.precio_compra}</td>
                     <td>${compra.cantidad}</td>
                     <td>${compra.fecha}</td>
                 `;
@@ -89,7 +89,7 @@ function getCompras() {
 
 // Cargar productos en el formulario de compras
 function loadProductsForPurchases() {
-    fetch("Php/productos.php")
+    fetch("../Php/productos.php")
         .then((response) => response.json())
         .then((data) => {
             const select = document.getElementById("compra-producto");
