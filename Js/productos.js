@@ -78,6 +78,9 @@ function editProduct(id) {
     fetch(`../Php/productos.php?id=${id}`)
         .then(response => response.json())
         .then(producto => {
+            
+            console.log(producto);
+            
             document.getElementById('producto-nombre').value = producto.nombre;
             document.getElementById('producto-categoria').value = producto.categoria_id;
             document.getElementById('producto-quintales').checked = producto.quintales;

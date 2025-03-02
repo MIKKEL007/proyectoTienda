@@ -70,7 +70,7 @@ function getCompras() {
     fetch("../Php/compras.php")
         .then((response) => response.json())
         .then((data) => {
-            const tableBody = document.querySelector("#compras-table tbody");
+            const tableBody = document.querySelector("#compras-table");
             tableBody.innerHTML = "";
             data.forEach((compra) => {
                 const row = document.createElement("tr");
