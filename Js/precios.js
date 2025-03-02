@@ -24,12 +24,18 @@ function getPrecios() {
         });
 }
 
+// // Función para formatear a Upper Camel Case
+function toUpperCamelCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+}
+let editingPriceId = null;
+
 // Función para agregar un nuevo precio
 document.getElementById('add-price-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const producto_id = document.getElementById('precio-producto').value;
-    const concepto = document.getElementById('precio-concepto').value;
+    const concepto = document.getElementById('precio-concepto').value.toUpperCase();
     const valor = parseFloat(document.getElementById('precio-valor').value);
 
     if (!producto_id || !concepto || isNaN(valor)) {
@@ -38,6 +44,37 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
     }
 
     const data = { producto_id, concepto, valor };
+    if (editingPriceId) {
+        data.id = editingPriceId;
+
+        fetch('../Php/precios.php', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Precio actualizado',
+                text: data.message
+            });
+
+            // Resetear el formulario
+            resetForm();
+            getPrecios();
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar precio',
+                text: error.message
+            });
+        });
+
+    } else { // Si no estamos editando,
 
     fetch('../Php/precios.php', {
         method: 'POST',
@@ -61,7 +98,33 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
     .catch(error => {
         Swal.fire('Error', 'Hubo un problema al agregar el precio', 'error');
     });
+} 
+
 });
+
+// Función para cancelar edición y resetear el formulario
+function resetForm() {
+
+    document.getElementById('precio-producto').value = "";
+    document.getElementById('precio-concepto').value = "";
+    document.getElementById('precio-valor').value = "";
+
+    document.querySelector('#form-title').textContent = "Agregar Precio";
+
+    const submitButton = document.getElementById('submit-button');
+    submitButton.textContent = "Agregar Precio";
+    submitButton.classList.remove('btn-success');
+    submitButton.classList.add('btn-primary');
+    document.getElementById('precio-producto').disabled = false
+    document.getElementById('precio-concepto').disabled = false;
+
+    submitButton.classList.remove('w-40');
+
+
+    document.getElementById('cancel-button').style.display = 'none'; // Ocultar botón cancelar
+
+    editingPriceId = null;
+}
 
 // Función para eliminar un precio
 function deletePrice(precio_id) {
@@ -119,44 +182,43 @@ function loadProducts() {
 }
 
 // Función para editar un precio (puedes implementar esta funcionalidad similar a agregar)
-function editPrice(precio_id) {
-    // Aquí puedes cargar los datos del precio y prellenar el formulario
-    // y luego hacer una petición para editar el precio
-    Swal.fire({
-        title: 'Editar Precio',
-        input: 'text',
-        inputLabel: 'Nuevo precio en dólares',
-        inputValue: '10.00', // Este sería el valor actual del precio
-        showCancelButton: true,
-        confirmButtonText: 'Guardar cambios',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const nuevoPrecio = parseFloat(result.value);
-            if (!isNaN(nuevoPrecio)) {
-                // Realiza la solicitud de edición (similar a agregar)
-                fetch('../Php/precios.php', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ precio_id, valor: nuevoPrecio })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('Editado', 'El precio ha sido actualizado', 'success');
-                        getPrecios();  // Recargar la lista de precios
-                    } else {
-                        Swal.fire('Error', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Error', 'Hubo un problema al editar el precio', 'error');
-                });
-            } else {
-                Swal.fire('Error', 'Por favor ingrese un valor numérico válido', 'error');
-            }
-        }
+function editPrice(id) {
+    fetch(`../Php/precios.php?id=${id}`)
+    .then(response => response.json())
+    .then(precio => {
+       editingPriceId = precio.id;
+        
+       document.getElementById('precio-producto').value = precio.producto_ids;
+       document.getElementById('precio-concepto').value = precio.concepto;
+       document.getElementById('precio-valor').value = precio.valor;
+
+        // Cambiar el título del formulario
+        document.querySelector('#form-title').textContent = "Editar Precio";
+
+         // Cambiar el texto del botón y el color
+         const submitButton = document.getElementById('submit-button');
+         submitButton.textContent = "Actualizar Precio";
+         submitButton.classList.remove('btn-primary');
+         submitButton.classList.add('btn-success');
+
+         submitButton.classList.add('w-40');
+
+         document.getElementById('precio-producto').disabled = true;
+         document.getElementById('precio-concepto').disabled = true;
+
+          // Mostrar el botón de cancelar
+        document.getElementById('cancel-button').style.display = 'inline-block';
+
+    })
+    .catch(error => {
+
+        console.log(error);
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al cargar producto',
+            text: error.message
+        });
     });
 }
 

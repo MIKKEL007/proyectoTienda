@@ -101,13 +101,17 @@
             </table>
         </div>
         
-        <h2 class="mt-4">Agregar Nueva Categoría</h2>
+        <h2 class="mt-4" id="form-title">Agregar Nueva Categoría</h2>
         <form id="add-category-form" class="mt-3">
             <div class="mb-3">
                 <label for="categoria-nombre" class="form-label">Nombre de la Categoría:</label>
                 <input type="text" id="categoria-nombre" name="nombre" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-success w-100">Agregar Categoría</button>
+
+
+                <button type="submit" class="btn btn-primary " id="submit-button">Agregar Categoría</button>
+                <button type="button" id="cancel-button" class="btn btn-danger w-40" style="display: none;" onclick="resetForm()">Cancelar</button>
+       
         </form>
     </main>
     

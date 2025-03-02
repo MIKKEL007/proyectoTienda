@@ -23,6 +23,12 @@ function getCategorias() {
         });
 }
 
+// // Función para formatear a Upper Camel Case
+function toUpperCamelCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+}
+let editingCategoryId = null;
+
 // Función para agregar una nueva categoría con SweetAlert
 document.getElementById('add-category-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -38,9 +44,49 @@ document.getElementById('add-category-form').addEventListener('submit', function
         return;
     }
 
+     // Convertir a UpperCamelCase antes de enviar
+     const formatNombre = toUpperCamelCase(nombre)
+     
+
+     const data = { nombre: formatNombre};
+
+     console.log(data);
+     
+     if (editingCategoryId) {
+        data.id = editingCategoryId;
+
+        fetch('../Php/categorias.php', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Categoria actualizada',
+                text: data.message
+            });
+
+            // Resetear el formulario
+            resetForm();
+            getCategorias();
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar categoria',
+                text: error.message
+            });
+        });
+
+    } else { // Si no estamos editando,
+
     Swal.fire({
         title: "¿Agregar categoría?",
-        text: `Se agregará "${nombre}" al sistema.`,
+        text: `Se agregará "${formatNombre}" al sistema.`,
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Sí, agregar",
@@ -52,7 +98,7 @@ document.getElementById('add-category-form').addEventListener('submit', function
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nombre })
+                body: JSON.stringify({nombre: formatNombre })
             })
             .then(response => response.json())
             .then(data => {
@@ -66,42 +112,63 @@ document.getElementById('add-category-form').addEventListener('submit', function
             });
         }
     });
+} 
+
 });
+
+// Función para cancelar edición y resetear el formulario
+function resetForm() {
+
+    document.getElementById('categoria-nombre').value = "";
+
+    document.querySelector('#form-title').textContent = "Agregar Categoria";
+
+    const submitButton = document.getElementById('submit-button');
+    submitButton.textContent = "Agregar Categoria";
+    submitButton.classList.remove('btn-success');
+    submitButton.classList.add('btn-primary');
+
+
+    submitButton.classList.remove('w-40');
+
+    document.getElementById('cancel-button').style.display = 'none'; // Ocultar botón cancelar
+
+    editingCategoryId = null;
+}
 
 // Función para editar una categoría
 function editCategory(id) {
     fetch(`../Php/categorias.php?id=${id}`)
         .then(response => response.json())
         .then(categoria => {
+           editingCategoryId = categoria.id;
+            
+           document.getElementById('categoria-nombre').value = categoria.nombre;
+
+            // Cambiar el título del formulario
+            document.querySelector('#form-title').textContent = "Editar Categoria";
+
+             // Cambiar el texto del botón y el color
+             const submitButton = document.getElementById('submit-button');
+             submitButton.textContent = "Actualizar Producto";
+             submitButton.classList.remove('btn-primary');
+             submitButton.classList.add('btn-success');
+
+   
+             submitButton.classList.add('w-40');
+
+              // Mostrar el botón de cancelar
+            document.getElementById('cancel-button').style.display = 'inline-block';
+
+        })
+        .catch(error => {
+
+            console.log(error);
+            
             Swal.fire({
-                title: "Editar Categoría",
-                input: "text",
-                inputValue: categoria.nombre,
-                showCancelButton: true,
-                confirmButtonText: "Guardar",
-                cancelButtonText: "Cancelar",
-                inputValidator: (value) => {
-                    if (!value.trim()) {
-                        return "El nombre no puede estar vacío.";
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch('../Php/categorias.php', {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id, nombre: result.value })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Categoría actualizada!",
-                            text: data.message,
-                        });
-                        getCategorias(); // Recargar lista
-                    });
-                }
+                icon: 'error',
+                title: 'Error al cargar producto',
+                text: error.message
             });
         });
 }

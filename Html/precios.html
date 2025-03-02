@@ -53,7 +53,7 @@
     </div>
 
 
-        <h2 class="mt-4" >Agregar Nuevo Precio</h2>
+        <h2 class="mt-4" id="form-title">Agregar Nuevo Precio</h2>
         <form id="add-price-form">
             <div class="mb-3">
                 <label for="precio-producto" class="form-label">Producto:</label>
@@ -70,7 +70,9 @@
                 <input type="number" id="precio-valor" name="valor" class="form-control" required step="0.01">
             </div>
 
-            <button type="submit" class="btn btn-success">Agregar Precio</button>
+            <button type="submit" class="btn btn-primary" id="submit-button">Agregar Precio</button>
+            <button type="button" id="cancel-button" class="btn btn-danger w-40" style="display: none;" onclick="resetForm()">Cancelar</button>
+       
         </form>
     </main>
 

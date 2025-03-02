@@ -5,10 +5,23 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-        // $producto_id = $_GET['producto_id'];
-        // $stmt = $conn->prepare("SELECT * FROM precios WHERE producto_id = ?");
-        // $stmt->bind_param("i", $producto_id);
 
+        if (isset($_GET['id'])) {
+            // Obtener un solo producto por ID
+            $id = intval($_GET['id']);
+            $stmt = $conn->prepare("SELECT 
+                precios.id AS precio_id, 
+                precios.concepto, 
+                precios.valor, 
+                productos.nombre AS producto_nombre,
+                productos.id AS producto_ids
+            FROM precios 
+            JOIN productos ON precios.producto_id = productos.id  WHERE precios.id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            echo json_encode($result->fetch_assoc());
+        } else {
         $sql = "
             SELECT 
                 precios.id AS precio_id, 
@@ -26,6 +39,8 @@ switch ($method) {
             $precios[] = $row;
         }
         echo json_encode($precios);
+
+    }
         break;
 
     case 'POST':

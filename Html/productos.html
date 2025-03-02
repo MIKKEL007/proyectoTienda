@@ -56,8 +56,8 @@
         </table>
     </div>
 
-        <h2 class="mt-4">Agregar Nuevo Producto</h2>
-        <form id="add-product-form">
+    <h2 id="form-title" class="mt-4">Agregar Nuevo Producto</h2>
+    <form id="add-product-form">
             <div class="mb-3">
                 <label for="producto-nombre" class="form-label">Nombre del Producto:</label>
                 <input type="text" id="producto-nombre" name="nombre" class="form-control" required>
@@ -68,12 +68,13 @@
                 <select id="producto-categoria" class="form-select" required></select>
             </div>
 
-            <div class="mb-3">
+            <div id="mis-q" class="mb-3">
                 <label for="producto-quintales" class="form-label">¿Compra por Quintales?</label>
                 <input type="checkbox" id="producto-quintales" name="quintales">
             </div>
 
-            <button type="submit" class="btn btn-primary">Agregar Producto</button>
+            <button type="submit" class="btn btn-primary" id="submit-button">Agregar Producto</button>
+            <button type="button" id="cancel-button" class="btn btn-danger" style="display: none;" onclick="resetForm()">Cancelar</button>
         </form>
     </main>
 
