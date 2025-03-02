@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión de Categorías</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="precios.html">Precios</a></li>
+                <li><a href="compras.html">Compras</a></li>
+                <li><a href="ventas.html">Ventas</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Lista de Categorías</h2>
+        <table id="categorias-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Categorías serán cargadas aquí mediante JavaScript -->
+            </tbody>
+        </table>
+
+        <h2>Agregar Nueva Categoría</h2>
+        <form id="add-category-form">
+            <label for="categoria-nombre">Nombre de la Categoría:</label>
+            <input type="text" id="categoria-nombre" name="nombre" required><br>
+
+            <button type="submit">Agregar Categoría</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sistema de Inventario Mayorista</p>
+    </footer>
+
+    <script src="../Js/categorias.js"></script>
+</body>
+</html>

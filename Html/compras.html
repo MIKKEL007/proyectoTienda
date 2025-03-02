@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compras</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="container mt-4">
+
+    <header class="mb-4">
+        <h1 class="text-center">Gestión de Compras</h1>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="categorias.html">Categorías</a></li>
+                <li class="nav-item"><a class="nav-link" href="precios.html">Precios</a></li>
+                <li class="nav-item"><a class="nav-link" href="ventas.html">Ventas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2 class="text-center">Agregar Compra</h2>
+    <form id="add-purchase-form" class="mb-4">
+        <div class="mb-3">
+            <label for="compra-producto" class="form-label">Producto:</label>
+            <select id="compra-producto" class="form-select" required>
+                <option value="">Seleccione un producto</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="compra-precio" class="form-label">Precio Compra:</label>
+            <input type="number" id="compra-precio" class="form-control" step="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="compra-cantidad" class="form-label">Cantidad:</label>
+            <input type="number" id="compra-cantidad" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="compra-fecha" class="form-label">Fecha de Compra:</label>
+            <input type="date" id="compra-fecha" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Agregar Compra</button>
+    </form>
+
+    <h2 class="text-center">Listado de Compras</h2>
+    <table class="table table-striped" id="compras-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Precio Compra</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las compras se cargarán aquí -->
+        </tbody>
+    </table>
+
+    <script src="../Js/compras.js"></script>
+</body>
+</html>

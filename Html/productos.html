@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <!-- Agregar Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilo personalizado -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-primary text-white p-3">
+        <h1>Gestión de Productos</h1>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a href="index.html" class="nav-link text-white">Inicio</a></li>
+                <li class="nav-item"><a href="categorias.html" class="nav-link text-white">Categorías</a></li>
+                <li class="nav-item"><a href="precios.html" class="nav-link text-white">Precios</a></li>
+                <li class="nav-item"><a href="compras.html" class="nav-link text-white">Compras</a></li>
+                <li class="nav-item"><a href="ventas.html" class="nav-link text-white">Ventas</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="container my-4">
+        <h2>Lista de Productos</h2>
+        <table id="productos-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Productos serán cargados aquí mediante JavaScript -->
+            </tbody>
+        </table>
+
+        <h2>Agregar Nuevo Producto</h2>
+        <form id="add-product-form">
+            <div class="mb-3">
+                <label for="producto-nombre" class="form-label">Nombre del Producto:</label>
+                <input type="text" id="producto-nombre" name="nombre" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="producto-categoria" class="form-label">Categoría:</label>
+                <select id="producto-categoria" class="form-select" required></select>
+            </div>
+
+            <div class="mb-3">
+                <label for="producto-quintales" class="form-label">¿Compra por Quintales?</label>
+                <input type="checkbox" id="producto-quintales" name="quintales">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar Producto</button>
+        </form>
+    </main>
+
+    <footer class="text-center mt-4">
+        <p>&copy; 2025 Sistema de Inventario Mayorista</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../Js/productos.js"></script>
+</body>
+</html>

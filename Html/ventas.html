@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas</title>
+    <!-- Agregar Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Tus estilos personalizados -->
+</head>
+<body>
+
+    <header class="bg-dark text-white p-4">
+        <div class="container">
+            <h1>Gestión de Ventas</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white">Inicio</a></li>
+                    <li class="nav-item"><a href="productos.html" class="nav-link text-white">Productos</a></li>
+                    <li class="nav-item"><a href="categorias.html" class="nav-link text-white">Categorías</a></li>
+                    <li class="nav-item"><a href="precios.html" class="nav-link text-white">Precios</a></li>
+                    <li class="nav-item"><a href="compras.html" class="nav-link text-white">Compras</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <h2 class="mb-4">Agregar Venta</h2>
+
+        <!-- Formulario de agregar venta -->
+        <form id="add-sale-form" class="bg-light p-4 rounded shadow-sm">
+            <div class="mb-3">
+                <label for="venta-producto" class="form-label">Producto:</label>
+                <select id="venta-producto" class="form-select" onchange="loadPricesForProduct()">
+                    <option value="">Seleccione un producto</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="venta-precio" class="form-label">Precio:</label>
+                <select id="venta-precio" name="precio_id" class="form-select">
+                    <option value="">Selecciona un precio</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="venta-cantidad" class="form-label">Cantidad:</label>
+                <input type="number" id="venta-cantidad" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="venta-fecha" class="form-label">Fecha de Venta:</label>
+                <input type="date" id="venta-fecha" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar Venta</button>
+        </form>
+
+        <h2 class="mt-5 mb-4">Listado de Ventas</h2>
+        
+        <!-- Tabla de ventas -->
+        <table id="ventas-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Precio Venta</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las ventas se cargarán aquí -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Agregar JavaScript de Bootstrap y tus propios scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../Js/ventas.js"></script>
+
+</body>
+</html>
