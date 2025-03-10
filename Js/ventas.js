@@ -9,7 +9,7 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
 
 
     const data = { producto_id, precio_id, cantidad, fecha };
-    console.log(data);  // Verifica los datos que se están enviando
+     // Verifica los datos que se están enviando
 
     // Validar si los campos son correctos
     if (!producto_id || !precio_id || !cantidad || !fecha) {
@@ -32,6 +32,9 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
     })
     .then(response => response.json())
     .then(data => {
+
+       
+        
         if (data.success) {
             Swal.fire({
                 icon: 'success',
@@ -43,7 +46,7 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al agregar la venta: ' + data.message,
+                text: 'Error al agregar la venta: ' + data.error,
             });
         }
     })
