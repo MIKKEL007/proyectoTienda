@@ -33,6 +33,7 @@ document.getElementById('add-sale-form').addEventListener('submit', function(e) 
     .then(response => response.json())
     .then(data => {
 
+       console.log(data);
        
         
         if (data.success) {
@@ -119,15 +120,22 @@ function loadPricesForProduct() {
         return;
     }
 
-    fetch(`../Php/precios.php?producto_id=${productoId}`)
+    fetch(`../Php/precios.php?id=${productoId}`)
         .then(response => response.json())
         .then(data => {
+
+            console.log(data);
+            
             selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
             data.forEach(precio => {
-                const option = document.createElement('option');
-                option.value = precio.precio_id;  // Asegúrate de que el campo correcto es `id`
-                option.textContent = `${precio.concepto} - $${precio.valor}`;
-                selectPrecios.appendChild(option);
+
+                
+                    const option = document.createElement('option');
+                    option.value = precio.precio_id;  // Asegúrate de que el campo correcto es `id`
+                    option.textContent = `${precio.concepto} - $${precio.valor}`;
+                    selectPrecios.appendChild(option);  
+                
+                
             });
         })
         .catch(error => {

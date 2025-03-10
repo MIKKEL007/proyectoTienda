@@ -7,20 +7,30 @@ switch ($method) {
     case 'GET':
 
         if (isset($_GET['id'])) {
-            // Obtener un solo producto por ID
-            $id = intval($_GET['id']);
+            // Obtener el ID del producto desde la solicitud
+            $producto_id = intval($_GET['id']);
+
             $stmt = $conn->prepare("SELECT 
                 precios.id AS precio_id, 
                 precios.concepto, 
                 precios.valor, 
-                productos.nombre AS producto_nombre,
-                productos.id AS producto_ids
+                productos.nombre AS producto_nombre
             FROM precios 
-            JOIN productos ON precios.producto_id = productos.id  WHERE precios.id = ?");
-            $stmt->bind_param("i", $id);
+            JOIN productos ON precios.producto_id = productos.id  
+            WHERE precios.producto_id = ?");
+            $stmt->bind_param("i", $producto_id);
             $stmt->execute();
             $result = $stmt->get_result();
-            echo json_encode($result->fetch_assoc());
+
+            // Convertir los resultados a un array
+            $precios = [];
+            while ($row = $result->fetch_assoc()) {
+                $precios[] = $row;
+            }
+
+            // Retornar los precios en formato JSON
+            echo json_encode($precios);
+
         } else {
         $sql = "
             SELECT 
