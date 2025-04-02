@@ -42,11 +42,13 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
         Swal.fire('Error', 'Por favor complete todos los campos correctamente', 'error');
         return;
     }
+    console.log(editingPriceId);
 
     const data = { producto_id, concepto, valor };
     if (editingPriceId) {
         data.id = editingPriceId;
 
+        
         fetch('../Php/precios.php', {
             method: 'PUT',
             headers: {
@@ -86,7 +88,7 @@ document.getElementById('add-price-form').addEventListener('submit', function(e)
     .then(response => response.json())
     .then(data => {
 
-        console.log(data);
+     
         
         if (data.success) {
             Swal.fire('Precio agregado', 'El precio ha sido agregado correctamente', 'success');
@@ -185,12 +187,13 @@ function loadProducts() {
 function editPrice(id) {
     fetch(`../Php/precios.php?id=${id}`)
     .then(response => response.json())
-    .then(precio => {
-       editingPriceId = precio.id;
+    .then(precio => {        
         
-       document.getElementById('precio-producto').value = precio.producto_ids;
-       document.getElementById('precio-concepto').value = precio.concepto;
-       document.getElementById('precio-valor').value = precio.valor;
+       editingPriceId = precio[0].precio_id;
+        
+       document.getElementById('precio-producto').value = precio[0].producto_id;
+       document.getElementById('precio-concepto').value = precio[0].concepto;
+       document.getElementById('precio-valor').value = precio[0].valor;
 
         // Cambiar el título del formulario
         document.querySelector('#form-title').textContent = "Editar Precio";

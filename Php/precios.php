@@ -14,10 +14,11 @@ switch ($method) {
                 precios.id AS precio_id, 
                 precios.concepto, 
                 precios.valor, 
-                productos.nombre AS producto_nombre
+                productos.nombre AS producto_nombre,
+                productos.id AS producto_id
             FROM precios 
             JOIN productos ON precios.producto_id = productos.id  
-            WHERE precios.producto_id = ?");
+            WHERE precios.id = ?");
             $stmt->bind_param("i", $producto_id);
             $stmt->execute();
             $result = $stmt->get_result();
