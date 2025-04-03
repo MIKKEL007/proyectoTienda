@@ -38,7 +38,8 @@ switch ($method) {
                 precios.id AS precio_id, 
                 precios.concepto, 
                 precios.valor, 
-                productos.nombre AS producto_nombre
+                productos.nombre AS producto_nombre,
+                productos.id AS producto_idp
             FROM precios
             JOIN productos ON precios.producto_id = productos.id
         ";

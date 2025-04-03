@@ -115,12 +115,14 @@ function loadPricesForProduct() {
     const productoId = document.getElementById('venta-producto').value;
     const selectPrecios = document.getElementById('venta-precio');
 
+    console.log(productoId);
+    
     if (!productoId) {
         selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
         return;
     }
 
-    fetch(`../Php/precios.php?id=${productoId}`)
+    fetch(`../Php/precios.php`)
         .then(response => response.json())
         .then(data => {
 
@@ -129,12 +131,14 @@ function loadPricesForProduct() {
             selectPrecios.innerHTML = '<option value="">Selecciona un precio</option>';
             data.forEach(precio => {
 
-                
+                    if (productoId ==precio.producto_idp ) {
+                        
+                   
                     const option = document.createElement('option');
                     option.value = precio.precio_id;  // Asegúrate de que el campo correcto es `id`
                     option.textContent = `${precio.concepto} - $${precio.valor}`;
                     selectPrecios.appendChild(option);  
-                
+                }
                 
             });
         })
